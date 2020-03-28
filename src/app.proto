@@ -4,14 +4,16 @@ package app;
 
 // Declare a service for each controller you have
 service AppController {
-  // Declare an rpc for each method that is called via gRPC
+  // Declare an rpc for each method that is called via gRPC in this cause its accumulate gRPC method
   rpc Accumulate (NumberArray) returns (SumOfNumberArray);
 }
 
-// Declare the types used above
+// Declare the argument type
 message NumberArray {
   repeated double data = 1;
 }
+
+// Declare the return type
 message SumOfNumberArray {
   double sum = 1;
 }

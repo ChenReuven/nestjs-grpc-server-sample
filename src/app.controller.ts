@@ -1,12 +1,13 @@
 import { Controller, Logger } from '@nestjs/common';
 import { MathService } from './math.service';
-// import { MessagePattern } from '@nestjs/microservices'; <-- Change this
-import { GrpcMethod } from '@nestjs/microservices'; //     <-- to this
+import { GrpcMethod } from '@nestjs/microservices';
 
-interface INumberArray { //      <--
+interface INumberArray {
+  //      <--
   data: number[]; //             <--   Add these
 } //                             <--   two
-interface ISumOfNumberArray { // <--   interfaces
+interface ISumOfNumberArray {
+  // <--   interfaces
   sum: number; //                <--
 } //                             <--
 
@@ -16,15 +17,15 @@ export class AppController {
 
   constructor(private mathService: MathService) {}
 
-  // @MessagePattern('add')                     <--  Change this
   @GrpcMethod('AppController', 'Accumulate') // <--  to this
+
   //
-  // async accumulate(data: number[])  {              <--  Change method param type
-  //   this.logger.log('Adding ' + data.toString());  <--  and return type to match
-  //   return this.mathService.accumulate(data);      <--  .proto file
-  // }                                                <--
-  accumulate(numberArray: INumberArray, metadata: any): ISumOfNumberArray { // <--
-    this.logger.log('Adding ' + numberArray.data.toString()); //               <--  Should look
-    return { sum: this.mathService.accumulate(numberArray.data) }; //          <--  like this
-  } //                                                                         <--
+  // async accumulate(data: number[])  {
+  //   this.logger.log('Adding ' + data.toString());
+  //   return this.mathService.accumulate(data);
+  // }
+  accumulate(numberArray: INumberArray, metadata: any): ISumOfNumberArray {
+    this.logger.log(`Adding ${numberArray.data.toString()}`);
+    return { sum: this.mathService.accumulate(numberArray.data) };
+  }
 }

@@ -1,24 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { join } from 'path';
 import { Logger } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
-import { join } from 'path'; // <-- Add this
 
 const logger = new Logger('Main');
 const microserviceOptions = {
-  // transport: Transport.REDIS,  <-- Change this
-  transport: Transport.GRPC,  //  <-- to this
+  transport: Transport.GRPC, // IMPORTANT
   options: {
-    // url: 'redis://localhost:6379',                  <-- remove this
-    package: 'app', //                                 <-- add this
-    protoPath: join(__dirname, '../src/app.proto'), // <-- & this
+    package: 'app',
+    protoPath: join(__dirname, '../src/app.proto'),
   },
 };
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AppModule, microserviceOptions);
+  const app = await NestFactory.createMicroservice(
+    AppModule,
+    microserviceOptions,
+  );
   app.listen(() => {
-    logger.log('Microservice is listening...');
+    logger.log('Micro service server is listening...');
   });
 }
 bootstrap();
